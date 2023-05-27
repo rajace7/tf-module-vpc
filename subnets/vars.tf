@@ -4,3 +4,4 @@ variable "tags" {}
 variable "env" {}
 variable "name" {}
 variable "azs" {}
+variable "subnets" {}
