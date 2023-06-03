@@ -46,13 +46,16 @@ resource "aws_nat_gateway" "ngw" {
   tags = merge(var.tags, { Name = "${var.env}-ngw" })
 }
 
+//this block to add internet to route like edit route and entering 0.0.0.0
 resource "aws_route" "igw" {
   count                  = length(module.subnets["public"].route_table_ids)
   route_table_id         = module.subnets["public"].route_table_ids[count.index]
+  //gateway_id is to add internet gateway to route table
   gateway_id             = aws_internet_gateway.igw.id
   destination_cidr_block = "0.0.0.0/0"
 }
 
+//this block to add natgetway to route like edit route and entering 0.0.0.0
 resource "aws_route" "ngw" {
   count                  = length(local.all_private_subnet_ids)
   route_table_id         = local.all_private_subnet_ids[count.index]
